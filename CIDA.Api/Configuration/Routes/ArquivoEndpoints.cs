@@ -137,6 +137,7 @@ public static class ArquivoEndpoints
                         "application/msword",
                         "vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         "vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                         "application/pdf",
                         "text/csv"
                     };
