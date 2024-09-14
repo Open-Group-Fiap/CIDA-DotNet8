@@ -206,9 +206,6 @@ public static class ArquivoEndpoints
 
                     //Send request to analyse (python api)
                     var urlApi = configuration["PythonApi:Url"];
-                    Console.WriteLine("\n\n\n\n\n\n\n");
-                    Console.WriteLine(containerClient.Uri.AbsoluteUri);
-                    Console.WriteLine("\n\n\n\n\n\n\n");
                     var response = await httpClient.PostAsJsonAsync($"{urlApi}/analyze", new
                     {
                         container = containerClient.Uri.AbsoluteUri,
