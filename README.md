@@ -14,6 +14,7 @@
 - Execute o projeto em python
 - Altere a string de conexão da API Python para a URL que a API Python está rodando localmente
 - Inicie a aplicação em http
+- Caso a API python não estiver respondendo, altera a variavel url_API no arquivo main.py
 
 
 ## Escolha da Arquitetura para o Projeto da API em .NET
