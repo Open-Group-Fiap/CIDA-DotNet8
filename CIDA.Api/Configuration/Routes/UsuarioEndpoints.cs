@@ -74,11 +74,6 @@ public static class UsuarioEndpoints
                         return Results.BadRequest("TipoDocumento deve ser um dos seguintes valores: 0(CPF), 1(CNPJ)");
                     }
 
-                    if (!model.Status.Equals(Status.ativo) && !model.Status.Equals(Status.inativo))
-                    {
-                        return Results.BadRequest("Status deve ser um dos seguintes valores: 0(ativo), 1(inativo)");
-                    }
-
                     var numDocumentoExists = await db.Usuarios
                         .Where(u => u.NumDocumento == model.NumDocumento)
                         .FirstOrDefaultAsync();
@@ -115,7 +110,7 @@ public static class UsuarioEndpoints
             .WithName("AddUsuario")
             .WithTags("Usuario")
             .WithDescription(
-                "Adiciona um novo usuário, o campo TipoDocumento deve ser um dos seguintes valores: 0(CPF), 1(CNPJ) e o campo Status deve ser um dos seguintes valores: 0(ativo), 1(inativo)")
+                "Adiciona um novo usuário, o campo TipoDocumento deve ser um dos seguintes valores: 0(CPF), 1(CNPJ)")
             .WithOpenApi();
 
         usuarioGroup.MapPut("/{id:int}",
@@ -125,11 +120,6 @@ public static class UsuarioEndpoints
                         !model.TipoDocumento.Equals(TipoDocumento.CNPJ))
                     {
                         return Results.BadRequest("TipoDocumento deve ser um dos seguintes valores: 0(CPF), 1(CNPJ)");
-                    }
-
-                    if (!model.Status.Equals(Status.ativo) && !model.Status.Equals(Status.inativo))
-                    {
-                        return Results.BadRequest("Status deve ser um dos seguintes valores: 0(ativo), 1(inativo)");
                     }
 
                     var usuario = await db.Usuarios.FindAsync(id);
@@ -163,7 +153,6 @@ public static class UsuarioEndpoints
 
                     usuario.Nome = model.Nome;
                     usuario.NumDocumento = model.NumDocumento;
-                    usuario.Status = model.Status;
                     usuario.Telefone = model.Telefone;
                     usuario.TipoDocumento = model.TipoDocumento;
 
@@ -180,7 +169,7 @@ public static class UsuarioEndpoints
             .WithName("UpdateUsuario")
             .WithTags("Usuario")
             .WithDescription(
-                "Atualiza um usuário, o campo TipoDocumento deve ser um dos seguintes valores: 0(CPF), 1(CNPJ) e o campo Status deve ser um dos seguintes valores: 0(ativo), 1(inativo)")
+                "Atualiza um usuário, o campo TipoDocumento deve ser um dos seguintes valores: 0(CPF), 1(CNPJ)")
             .WithOpenApi();
 
         usuarioGroup.MapDelete("/{id:int}", async ([Required] int id, CidaDbContext db) =>
