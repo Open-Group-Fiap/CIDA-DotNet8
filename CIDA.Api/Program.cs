@@ -29,9 +29,9 @@ public class Program
                 var context = scope.ServiceProvider.GetRequiredService<CidaDbContext>();
 
                 context.Autenticacoes.Add(new Autenticacao
-                    { IdAutenticacao = 1, Email = "example2@example.com", HashSenha = "123456" });
+                    { IdAutenticacao = 1, Email = "example2@example.com", HashSenha = "8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92" });
                 context.Autenticacoes.Add(new Autenticacao
-                    { IdAutenticacao = 2, Email = "example@example.com", HashSenha = "123456" });
+                    { IdAutenticacao = 2, Email = "example@example.com", HashSenha = "8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92" });
 
                 context.Usuarios.AddRange(
                     new Usuario
@@ -47,6 +47,42 @@ public class Program
                         Telefone = "(12) 99999-9999", IdAutenticacao = 2, DataCriacao = DateTime.Now
                     }
                 );
+                
+                context.Arquivos.AddRange(
+                    new Arquivo
+                    {
+                        IdUsuario = 1, Nome = "TechNova Relatório.pdf", Url = "https://cidastore.blob.core.windows.net/teste-container/TechNova Relatório.pdf",
+                        DataUpload = DateTime.Now, Extensao = "pdf", Tamanho = 1024
+                    },
+                    new Arquivo
+                    {
+                        IdUsuario = 2, Nome = "TechNova Relatório.pdf", Url = "https://cidastore.blob.core.windows.net/teste-container/TechNova Relatório.pdf",
+                        DataUpload = DateTime.Now, Extensao = "docx", Tamanho = 1024
+                    }
+                );
+                
+                context.Resumos.AddRange(
+                    new Resumo
+                    {
+                        IdUsuario = 1, Descricao = "Descrição do resumo"
+                    },
+                    new Resumo
+                    {
+                        IdUsuario = 1, Descricao = "Descrição do resumo 2"
+                    }
+                );
+                
+                context.Insights.AddRange(
+                    new Insight
+                    {
+                        IdUsuario = 1, IdResumo = 1, Descricao = "Descrição do insight"
+                    },
+                    new Insight
+                    {
+                        IdUsuario = 1, IdResumo = 2, Descricao = "Descrição do insight 2"
+                    }
+                );
+                
                 context.SaveChanges();
             }
         }
