@@ -43,7 +43,7 @@ public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
     {
         // Arrange
         var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
-            "example@example.com",
+            "example2@example.com",
             "123456",
             "example",
             0,
@@ -98,4 +98,183 @@ public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
         response.EnsureSuccessStatusCode();
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
     }
+
+    [Fact]
+    public async Task PostUsuario_ReturnsBadRequest_WhenTipoDocumentoIsInvalid()
+    {
+        // Arrange
+        var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
+            "example10@example.com",
+            "123456",
+            "Example",
+            TipoDocumento.CPF + 10,
+            "000.000.000-31",
+            "(21) 88888-1345");
+
+        // Act
+        var response = await _client.PostAsJsonAsync("/usuario", usuario);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Equal("TipoDocumento deve ser um dos seguintes valores: 0(CPF), 1(CNPJ)", content.Trim('"'));
+    }
+
+    [Fact]
+    public async Task PostUsuario_ReturnsBadRequest_WhenNumDocumentoIsAlreadyAssigned()
+    {
+        // Arrange
+        var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
+            "example10@example.com",
+            "123456",
+            "Example",
+            TipoDocumento.CPF,
+            "000.000.000-00",
+            "(21) 88888-1345"
+        );
+
+        // Act
+        var response = await _client.PostAsJsonAsync("/usuario", usuario);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Equal("Número de documento já cadastrado", content.Trim('"'));
+    }
+
+    [Fact]
+    public async Task PostUsuario_ReturnsBadRequest_WhenEmailIsAlreadyAssigned()
+    {
+        // Arrange
+        var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
+            "example2@example.com",
+            "123456",
+            "Example",
+            TipoDocumento.CPF,
+            "000.000.300-41",
+            "(21) 88888-1345"
+        );
+        
+        // Act
+        var response = await _client.PostAsJsonAsync("/usuario", usuario);
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Equal("Email já cadastrado", content.Trim('"'));
+
+    }
+
+    [Fact]
+    public async Task PutUsuario_ReturnsBadRequest_WhenTipoDocumentoIsInvalid()
+    {
+        // Arrange
+        var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
+            "example2@example.com",
+            "123456",
+            "Example",
+            TipoDocumento.CPF + 10,
+            "000.000.300-41",
+            "(21) 88888-1345"
+        );
+        
+        // Act
+        var response = await _client.PutAsJsonAsync("/usuario/1", usuario);
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Equal("TipoDocumento deve ser um dos seguintes valores: 0(CPF), 1(CNPJ)", content.Trim('"'));
+    }
+
+    [Fact]
+    public async Task PutUsuario_ReturnsNotFound_WhenUsuarioDoesNotExist()
+    {
+        // Arrange
+        var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
+            "example10@example.com",
+            "123456",
+            "Example",
+            TipoDocumento.CPF,
+            "000.000.300-41",
+            "(21) 88888-1345"
+        );
+        
+        // Act
+        var response = await _client.PutAsJsonAsync("/usuario/123", usuario);
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Equal("Usuário não encontrado", content.Trim('"'));
+
+    }
+
+    [Fact]
+    public async Task PutUsuario_ReturnsBadRequest_WhenNumDocumentoIsAlreadyAssigned()
+    {
+        // Arrange
+        var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
+            "example321@example.com",
+            "123456",
+            "Example",
+            TipoDocumento.CPF,
+            "000-111-222-33",
+            "(21) 88888-1345"
+        );
+
+        // Act
+        var response = await _client.PutAsJsonAsync("/usuario/1", usuario);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Equal("Número de documento já cadastrado", content.Trim('"'));
+    }
+    
+    [Fact]
+    public async Task PutUsuario_ReturnsBadRequest_WhenEmailIsAlreadyAssigned()
+    {
+        // Arrange
+        var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
+            "example321@example.com",
+            "123456",
+            "Example",
+            TipoDocumento.CPF,
+            "000.000.300-41",
+            "(21) 88888-1345"
+        );
+        
+        // Act
+        var response = await _client.PutAsJsonAsync("/usuario/1", usuario);
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Equal("Email já cadastrado", content.Trim('"'));
+    }
+    
+        
+    
+    [Fact]
+    public async Task PutUsuario_ReturnsBadRequest_WhenSendRandomJson()
+    {
+        // Act
+        var response = await _client.PutAsJsonAsync("/usuario/1", new {});
+
+        // Assert
+        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+    }
+    
+    [Fact]
+    public async Task PostUsuario_ReturnsBadRequest_WhenSendRandomJson()
+    {
+        // Act
+        var response = await _client.PostAsJsonAsync("/usuario", new {});
+
+        // Assert
+        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+    }
+    
+    
 }

@@ -99,5 +99,90 @@ public class InsightApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         Assert.NotNull(insight);
     }
+
+    [Fact]
+    public async Task PutInsight_ReturnsBadRequest_WhenUsuarioNotExists()
+    {
+        // Arrange
+        var insight = new InsightAddOrUpdateModel(
+            123,
+            1,
+            "Descrição do insight"
+        );
+
+        // Act
+        var response = await _client.PutAsJsonAsync("/insight/1", insight);
+
+        // check if returns a bad request and correct message
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Equal("Usuário não encontrado", content.Trim('"'));
+    }
+
+    [Fact]
+    public async Task PutInsight_ReturnsBadRequest_WhenResumoNotExists()
+    {
+        // Arrange
+        var insight = new InsightAddOrUpdateModel(
+            1,
+            123,
+            "Descrição do insight"
+        );
+
+        // Act
+        var response = await _client.PutAsJsonAsync("/insight/1", insight);
+
+        // check if returns a bad request and correct message
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Equal("Resumo não encontrado", content.Trim('"'));
+    }
+
+    [Fact]
+    public async Task PutInsight_ReturnsNotFound_WhenInsightNotExists()
+    {
+        // Arrange
+        var insight = new InsightAddOrUpdateModel(
+            1,
+            1,
+            "Descrição do insight"
+        );
+
+        // Act
+        var response = await _client.PutAsJsonAsync("/insight/123", insight);
+
+        // check if returns a bad request and correct message
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task PutInsight_ReturnsBadRequest_WhenResumoIsAlreadyAssigned()
+    {
+        // Arrange
+        var insight = new InsightAddOrUpdateModel(
+            1,
+            3,
+            "Descrição do insight"
+        );
+
+        // Act
+        var response = await _client.PutAsJsonAsync("/insight/1", insight);
+
+        // check if returns a bad request and correct message
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Equal("Já existe um insight para esse resumo", content.Trim('"'));
+    }
     
+    [Fact]
+    public async Task PutInsight_ReturnsBadRequest_WhenSendRandomJson()
+    {
+        // Act
+        var response = await _client.PutAsJsonAsync("/insight/1", new {});
+
+        // check if returns a bad request
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        
+    }
+
 }

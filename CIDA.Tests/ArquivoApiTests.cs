@@ -125,5 +125,16 @@ public class ArquivoApiTests: IClassFixture<WebApplicationFactory<Program>>
 
         Assert.NotNull(arquivo);
     }
+
+    [Fact]
+    public async Task PostArquivo_ReturnsBadRequest_WhenSendRandomJson()
+    {
+        
+        // Act
+        var response = await _client.PostAsJsonAsync("/arquivo/idUsuario/1/upload", new { });
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.UnsupportedMediaType, response.StatusCode);
+    }
     
 }

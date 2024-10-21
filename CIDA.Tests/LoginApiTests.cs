@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using CIDA.Api;
 using CIDA.Api.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -27,7 +28,7 @@ public class LoginApiTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await _client.PostAsJsonAsync("/login", login);
         
         // Assert
-        Assert.Equal("Unauthorized", response.StatusCode.ToString());
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
     
     [Fact]
@@ -44,7 +45,6 @@ public class LoginApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         response.EnsureSuccessStatusCode();
-        Assert.Equal("OK", response.StatusCode.ToString());
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
-    
 }

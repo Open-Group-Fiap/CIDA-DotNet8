@@ -83,5 +83,41 @@ public class ResumoApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         Assert.NotNull(resumo);
     }
+    
+    [Fact]
+    public async Task PutResumo_ReturnsNotFound_WhenResumoNotExists()
+    {
+        // Act
+        var response = await _client.PutAsJsonAsync("/resumo/999", new ResumoAddOrUpdateModel(
+            1,
+            "Descrição do resumo"
+        ));
+
+        // Assert
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+    
+    [Fact]
+    public async Task PutResumo_ReturnsBadRequestResumo_WhenUsuarioNotExists()
+    {
+        // Act
+        var response = await _client.PutAsJsonAsync("/resumo/1", new ResumoAddOrUpdateModel(
+            999,
+            "Descrição do resumo"
+        ));
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task PutResumo_ReturnsBadRequest_WhenSendRandomJson()
+    {
+        // Act
+        var response = await _client.PutAsJsonAsync("/resumo/1", new { });
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
 
 }
