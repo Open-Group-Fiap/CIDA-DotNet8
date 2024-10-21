@@ -156,9 +156,12 @@ public static class InsightResumoService
         var start_phase =
             "Resuma o seguinte documento e diminua seu tamanho total, mantenha a coesão, os dados e as estatisticas: ";
 
+        var azureAIEndpoint = configuration.GetConnectionString("AzureAIEndpoint");
+        var azureAIApiKey = configuration.GetConnectionString("AzureAIApiKey");
+        
         var client = new ChatCompletionsClient(
-            new Uri(configuration.GetConnectionString("AzureAIEndpoint")),
-            new AzureKeyCredential(configuration.GetConnectionString("AzureAIApiKey"))
+            new Uri(azureAIEndpoint),
+            new AzureKeyCredential(azureAIApiKey)
         );
 
         var requestOptions = new ChatCompletionsOptions()

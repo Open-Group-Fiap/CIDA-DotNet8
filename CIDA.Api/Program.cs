@@ -102,17 +102,19 @@ public class Program
         }
         else
         {
+            var azureConnection = builder.Configuration.GetConnectionString("AzureConnection");
+            
             builder.Services.AddDbContext<CidaDbContext>(options =>
             {
-                options.UseOracle(builder.Configuration.GetConnectionString("FiapOracleConnection"));
+                options.UseSqlServer(azureConnection);
             });
         }
 
         #endregion
 
         #region Azure Blob Storage
-
-// add singleton azure blob service
+        
+        // add singleton azure blob service
         builder.Services.AddSingleton(x =>
         {
             var connectionString = builder.Configuration.GetConnectionString("AzureStorage");
