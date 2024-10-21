@@ -140,10 +140,9 @@ public static class UsuarioEndpoints
                     }
 
                     var autenticacao = await db.Autenticacoes.FindAsync(usuario.IdAutenticacao);
-                    if (autenticacao == null)
-                    {
-                        return Results.NotFound("Autenticação não encontrada");
-                    }
+                    var existingAutenticacao =
+                        await db.Autenticacoes.Where(a => a.Email == model.Email).FirstOrDefaultAsync();
+                    if (existingAutenticacao != null && existingAutenticacao.IdAutenticacao != autenticacao.IdAutenticacao) return Results.BadRequest("Email já cadastrado");
 
                     autenticacao.Email = model.Email;
                     autenticacao.HashSenha = AutenticacaoService.QuickHash(model.Senha);
