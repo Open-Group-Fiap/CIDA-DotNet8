@@ -21,7 +21,7 @@ public class ArquivoApiTests: IClassFixture<WebApplicationFactory<Program>>
     {
         
         // Arrange
-        var link = "https://cidastore.blob.core.windows.net/teste-container/TechNova Relatório.pdf";
+        var link = "https://cidastore.blob.core.windows.net/cida-container-e8459f551bbe4057ac24765a58d35387/c03bb7a6a7c546888223a645363c23ad-TechNova_Relatorio.pdf";
     
         using var httpClient = new HttpClient();
         var fileStream = await httpClient.GetStreamAsync(link);
