@@ -149,6 +149,64 @@
 - **Importância:** Este teste valida que usuários com e-mail e senha corretos conseguem realizar login com sucesso, permitindo acesso às funcionalidades protegidas da aplicação.
 - **Verificação:** O teste verifica que o status de resposta é `200 OK`, assegurando que o login foi realizado corretamente com credenciais válidas.
 
+---
+
+## TESTES RESUMO
+### Funcionalidades Testadas
+
+1. **PutResumo_ReturnsResumo_WhenResumoExists**  
+2. **DeleteResumo_ReturnsNoContent_WhenResumoExists**  
+3. **GetResumosByUsuarioEmail_ReturnsResumo_WhenResumoExists**  
+4. **GetResumosSearch_ReturnsResumo_WhenResumoExists**  
+5. **GetResumoById_ReturnsResumo_WhenResumoExists**  
+6. **PutResumo_ReturnsNotFound_WhenResumoNotExists**  
+7. **PutResumo_ReturnsBadRequestResumo_WhenUsuarioNotExists**  
+8. **PutResumo_ReturnsBadRequest_WhenSendRandomJson**  
+
+
+### Explicação e Importância de Cada Teste
+
+#### 1. PutResumo_ReturnsResumo_WhenResumoExists
+- **Objetivo:** Verificar se a API retorna um resumo atualizado quando o ID do resumo existe.
+- **Importância:** Este teste é fundamental para garantir que a funcionalidade de atualização de resumos está operando corretamente, permitindo modificações nos dados de resumos existentes.
+- **Verificação:** O teste assegura que o status de resposta é `200 OK`, e que o resumo retornado contém a descrição atualizada.
+
+#### 2. DeleteResumo_ReturnsNoContent_WhenResumoExists
+- **Objetivo:** Verificar se a API permite a exclusão de um resumo existente.
+- **Importância:** Este teste valida que a exclusão de resumos está funcionando corretamente, essencial para a gestão de dados na aplicação.
+- **Verificação:** O status `204 No Content` é esperado, confirmando que o resumo foi deletado com sucesso.
+
+#### 3. GetResumosByUsuarioEmail_ReturnsResumo_WhenResumoExists
+- **Objetivo:** Verificar se a API retorna resumos associados a um e-mail específico.
+- **Importância:** Este teste valida a capacidade da API de buscar resumos com base em um critério (e-mail), essencial para facilitar a pesquisa de informações.
+- **Verificação:** O teste verifica se a resposta contém o resumo, confirmando que a busca está funcionando corretamente.
+
+#### 4. GetResumosSearch_ReturnsResumo_WhenResumoExists
+- **Objetivo:** Verificar se a API retorna resumos em uma pesquisa genérica.
+- **Importância:** Testa a funcionalidade de busca de resumos, garantindo que a pesquisa retorne resultados esperados.
+- **Verificação:** O teste assegura que a resposta contém resumos, validando a funcionalidade de busca.
+
+#### 5. GetResumoById_ReturnsResumo_WhenResumoExists
+- **Objetivo:** Verificar se a API retorna um resumo específico pelo seu ID.
+- **Importância:** Garante que a funcionalidade de busca por ID está funcionando corretamente, permitindo a recuperação direta de resumos específicos.
+- **Verificação:** O teste espera que o resumo retornado não seja nulo, confirmando que o resumo foi encontrado.
+
+#### 6. PutResumo_ReturnsNotFound_WhenResumoNotExists
+- **Objetivo:** Verificar se a API retorna o status correto quando o ID do resumo não existe.
+- **Importância:** Este teste é essencial para garantir que a aplicação não permita atualizações em resumos inexistentes, melhorando a integridade dos dados.
+- **Verificação:** O teste espera o status `404 Not Found`, indicando que o resumo não foi encontrado.
+
+#### 7. PutResumo_ReturnsBadRequestResumo_WhenUsuarioNotExists
+- **Objetivo:** Verificar se a API retorna um erro ao tentar atualizar um resumo com um usuário que não existe.
+- **Importância:** Garante que a lógica de negócios da aplicação está validando corretamente os dados antes de processá-los.
+- **Verificação:** O teste espera o status `400 Bad Request`, confirmando que a requisição não foi aceita devido à inexistência do usuário.
+
+#### 8. PutResumo_ReturnsBadRequest_WhenSendRandomJson
+- **Objetivo:** Verificar se a API retorna um erro ao receber um payload inválido para atualização de resumo.
+- **Importância:** Este teste assegura que a API está validando adequadamente as entradas, prevenindo o processamento de dados inválidos.
+- **Verificação:** O teste espera o status `400 Bad Request`, indicando que a requisição não foi aceita devido ao formato inadequado do JSON.
+
+---
 
 
 
