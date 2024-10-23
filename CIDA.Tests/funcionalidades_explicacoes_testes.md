@@ -1,3 +1,8 @@
+# Documento de Testes de API
+
+Este documento tem como objetivo apresentar as funcionalidades que serão testadas na API, descrevendo cada teste. Para cada funcionalidade, estão especificados os objetivos, a importância dos testes e as verificações esperadas. A realização desses testes é essencial para assegurar que todos os endpoints se comportem conforme o esperado em diferentes cenários.
+
+
 ## TESTES ARQUIVOS
 ### Funcionalidades Testadas
 
