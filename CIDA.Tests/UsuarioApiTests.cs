@@ -257,7 +257,7 @@ public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
         
     
     [Fact]
-    public async Task PutUsuario_ReturnsBadRequest_WhenSendRandomJson()
+    public async Task PutUsuario_ReturnsInternalServerError_WhenSendRandomJson()
     {
         // Act
         var response = await _client.PutAsJsonAsync("/usuario/1", new {});
@@ -267,7 +267,7 @@ public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
     }
     
     [Fact]
-    public async Task PostUsuario_ReturnsBadRequest_WhenSendRandomJson()
+    public async Task PostUsuario_ReturnsInternalServerError_WhenSendRandomJson()
     {
         // Act
         var response = await _client.PostAsJsonAsync("/usuario", new {});
