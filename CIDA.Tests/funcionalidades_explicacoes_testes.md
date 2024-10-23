@@ -208,5 +208,95 @@
 
 ---
 
+## TESTES USUÁRIO
+### Funcionalidades Testadas
+
+1. **PostUsuario_ReturnsUsuario**
+2. **PutUsuario_ReturnsUsuario_WhenUsuarioExists**
+3. **GetUsuarioById_ReturnsUsuario_WhenUsuarioExists**
+4. **GetUsuarioByEmail_ReturnsUsuario_WhenUsuarioExists**
+5. **DeleteUsuario_ReturnsNoContent_WhenUsuarioExists**
+6. **PostUsuario_ReturnsBadRequest_WhenTipoDocumentoIsInvalid**
+7. **PostUsuario_ReturnsBadRequest_WhenNumDocumentoIsAlreadyAssigned**
+8. **PostUsuario_ReturnsBadRequest_WhenEmailIsAlreadyAssigned**
+9. **PutUsuario_ReturnsBadRequest_WhenTipoDocumentoIsInvalid**
+10. **PutUsuario_ReturnsNotFound_WhenUsuarioDoesNotExist**
+11. **PutUsuario_ReturnsBadRequest_WhenNumDocumentoIsAlreadyAssigned**
+12. **PutUsuario_ReturnsBadRequest_WhenEmailIsAlreadyAssigned**
+13. **PutUsuario_ReturnsBadRequest_WhenSendRandomJson**
+14. **PostUsuario_ReturnsBadRequest_WhenSendRandomJson**
+
+### Explicação e Importância de Cada Teste
+
+#### 1. PostUsuario_ReturnsUsuario
+- **Objetivo:** Verificar se a criação de um novo usuário retorna um objeto de usuário válido.
+- **Importância:** Este teste garante que o endpoint de criação (`POST /usuario`) funcione corretamente, permitindo a adição de novos usuários ao sistema.
+- **Verificação:** Espera-se que a resposta contenha um usuário criado e um status `201 Created`.
+
+#### 2. PutUsuario_ReturnsUsuario_WhenUsuarioExists
+- **Objetivo:** Testar a atualização de um usuário existente.
+- **Importância:** Assegura que a atualização de um usuário funcione corretamente, mantendo a integridade dos dados no sistema.
+- **Verificação:** O teste verifica se o usuário atualizado é retornado com status `200 OK`.
+
+#### 3. GetUsuarioById_ReturnsUsuario_WhenUsuarioExists
+- **Objetivo:** Testar a recuperação de um usuário pelo ID.
+- **Importância:** Confirma que a busca de um usuário por ID está operando corretamente, permitindo a consulta de informações de usuários específicos.
+- **Verificação:** O teste espera que um usuário válido seja retornado e que a resposta não seja nula.
+
+#### 4. GetUsuarioByEmail_ReturnsUsuario_WhenUsuarioExists
+- **Objetivo:** Testar a busca de um usuário pelo e-mail.
+- **Importância:** Avalia se a funcionalidade de busca por e-mail está implementada corretamente, permitindo que usuários sejam localizados de forma eficiente.
+- **Verificação:** Espera-se que o usuário correspondente ao e-mail informado seja retornado.
+
+#### 5. DeleteUsuario_ReturnsNoContent_WhenUsuarioExists
+- **Objetivo:** Testar a exclusão de um usuário existente.
+- **Importância:** Garante que a remoção de usuários funcione como esperado, permitindo a manutenção adequada dos dados.
+- **Verificação:** O teste espera um status `204 No Content` após a exclusão.
+
+#### 6. PostUsuario_ReturnsBadRequest_WhenTipoDocumentoIsInvalid
+- **Objetivo:** Testar a criação de um usuário com tipo de documento inválido.
+- **Importância:** Verifica se a validação de dados está sendo aplicada corretamente ao criar usuários, garantindo que apenas dados válidos sejam aceitos.
+- **Verificação:** O teste deve retornar um status `400 Bad Request`.
+
+#### 7. PostUsuario_ReturnsBadRequest_WhenNumDocumentoIsAlreadyAssigned
+- **Objetivo:** Testar a criação de um usuário com número de documento duplicado.
+- **Importância:** Garante que o sistema não permita a duplicação de números de documentos, respeitando as regras de unicidade.
+- **Verificação:** Espera-se um `400 Bad Request` ao tentar criar um usuário com um número de documento já existente.
+
+#### 8. PostUsuario_ReturnsBadRequest_WhenEmailIsAlreadyAssigned
+- **Objetivo:** Testar a criação de um usuário com e-mail já cadastrado.
+- **Importância:** Assegura que o sistema mantenha a unicidade dos e-mails, prevenindo conflitos de conta.
+- **Verificação:** O teste deve retornar um `400 Bad Request`.
+
+#### 9. PutUsuario_ReturnsBadRequest_WhenTipoDocumentoIsInvalid
+- **Objetivo:** Testar a atualização de um usuário com tipo de documento inválido.
+- **Importância:** Verifica se a validação de dados se aplica também nas atualizações, mantendo a integridade dos dados.
+- **Verificação:** O teste deve retornar um `400 Bad Request` para dados inválidos.
+
+#### 10. PutUsuario_ReturnsNotFound_WhenUsuarioDoesNotExist
+- **Objetivo:** Testar a atualização de um usuário que não existe.
+- **Importância:** Garante que o sistema retorne um erro apropriado quando se tenta atualizar um usuário inexistente, ajudando a evitar erros na aplicação.
+- **Verificação:** O teste deve retornar um `404 Not Found`.
+
+#### 11. PutUsuario_ReturnsBadRequest_WhenNumDocumentoIsAlreadyAssigned
+- **Objetivo:** Testar a atualização de um usuário com número de documento já existente.
+- **Importância:** Garante que a validação para duplicatas se aplique durante as atualizações, evitando conflitos de dados.
+- **Verificação:** Espera-se um `400 Bad Request`.
+
+#### 12. PutUsuario_ReturnsBadRequest_WhenEmailIsAlreadyAssigned
+- **Objetivo:** Testar a atualização de um usuário com e-mail já existente.
+- **Importância:** Assegura que o sistema mantenha a unicidade dos e-mails, mesmo durante as atualizações.
+- **Verificação:** O teste deve retornar um `400 Bad Request`.
+
+#### 13. PutUsuario_ReturnsBadRequest_WhenSendRandomJson
+- **Objetivo:** Testar a atualização de um usuário enviando um JSON aleatório.
+- **Importância:** Avalia como o sistema lida com entradas inesperadas, garantindo a robustez da aplicação.
+- **Verificação:** O teste deve retornar um `500 Internal Server Error`.
+
+#### 14. PostUsuario_ReturnsBadRequest_WhenSendRandomJson
+- **Objetivo:** Testar a criação de um usuário com um JSON aleatório.
+- **Importância:** Confirma que o sistema não falha ao receber dados inválidos, mantendo a estabilidade da aplicação.
+- **Verificação:** Espera-se um `500 Internal Server Error`.
+
 
 
