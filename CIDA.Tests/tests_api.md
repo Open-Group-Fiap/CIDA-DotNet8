@@ -293,12 +293,12 @@ Este documento tem como objetivo apresentar as funcionalidades que serão testad
 - **Importância:** Assegura que o sistema mantenha a unicidade dos e-mails, mesmo durante as atualizações.
 - **Verificação:** O teste deve retornar um `400 Bad Request`.
 
-#### 13. PutUsuario_ReturnsBadRequest_WhenSendRandomJson
+#### 13. PutUsuario_ReturnsInternalServerError_WhenSendRandomJson
 - **Objetivo:** Testar a atualização de um usuário enviando um JSON aleatório.
 - **Importância:** Avalia como o sistema lida com entradas inesperadas, garantindo a robustez da aplicação.
 - **Verificação:** O teste deve retornar um `500 Internal Server Error`.
 
-#### 14. PostUsuario_ReturnsBadRequest_WhenSendRandomJson
+#### 14. PostUsuario_ReturnsInternalServerError_WhenSendRandomJson
 - **Objetivo:** Testar a criação de um usuário com um JSON aleatório.
 - **Importância:** Confirma que o sistema não falha ao receber dados inválidos, mantendo a estabilidade da aplicação.
 - **Verificação:** Espera-se um `500 Internal Server Error`.
