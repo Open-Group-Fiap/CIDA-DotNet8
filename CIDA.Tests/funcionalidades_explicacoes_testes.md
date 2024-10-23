@@ -130,5 +130,25 @@
 
 ---
 
+## TESTES LOGIN
+### Funcionalidades Testadas
+
+1. **PostLogin_ReturnsUnauthorized_WhenEmailAndSenhaAreInvalid**  
+2. **PostLogin_ReturnsOk_WhenEmailAndSenhaAreValid**
+
+
+### Explicação e Importância de Cada Teste
+
+#### 1. PostLogin_ReturnsUnauthorized_WhenEmailAndSenhaAreInvalid
+- **Objetivo:** Verificar se a API retorna o status correto quando credenciais inválidas são fornecidas.
+- **Importância:** Este teste é essencial para garantir que o sistema de autenticação rejeita tentativas de login com e-mail ou senha incorretos. É fundamental para manter a segurança da aplicação, evitando acessos não autorizados.
+- **Verificação:** O teste espera o status `401 Unauthorized` quando o e-mail e a senha são inválidos, confirmando que o sistema não permite acesso indevido.
+
+#### 2. PostLogin_ReturnsOk_WhenEmailAndSenhaAreValid
+- **Objetivo:** Verificar se a API permite o login com credenciais válidas.
+- **Importância:** Este teste valida que usuários com e-mail e senha corretos conseguem realizar login com sucesso, permitindo acesso às funcionalidades protegidas da aplicação.
+- **Verificação:** O teste verifica que o status de resposta é `200 OK`, assegurando que o login foi realizado corretamente com credenciais válidas.
+
+
 
 
