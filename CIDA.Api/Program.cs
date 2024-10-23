@@ -57,12 +57,12 @@ public class Program
                 context.Arquivos.AddRange(
                     new Arquivo
                     {
-                        IdUsuario = 1, Nome = "TechNova Relatório.pdf", Url = "https://cidastore.blob.core.windows.net/teste-container/TechNovaRelatório.pdf",
+                        IdUsuario = 1, Nome = "TechNova Relatório.pdf", Url = "https://cidastore.blob.core.windows.net/teste-container/Relatório.pdf",
                         DataUpload = DateTime.Now, Extensao = "pdf", Tamanho = 1024
                     },
                     new Arquivo
                     {
-                        IdUsuario = 2, Nome = "TechNova Relatório.pdf", Url = "https://cidastore.blob.core.windows.net/teste-container/TechNovaRelatório.pdf",
+                        IdUsuario = 2, Nome = "TechNova Relatório.pdf", Url = "https://cidastore.blob.core.windows.net/teste-container/Relatório.pdf",
                         DataUpload = DateTime.Now, Extensao = "docx", Tamanho = 1024
                     }
                 );
