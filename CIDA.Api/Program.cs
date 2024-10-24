@@ -116,11 +116,7 @@ public class Program
                         IdInsight = 3, IdUsuario = 3, IdResumo = 3, Descricao = "Descrição do insight 3"
                     }
                 );
-
-
-                //fix An item with the same key has already been added. Key: 1
-
-
+                
                 context.SaveChanges();
             }
         }
