@@ -184,13 +184,6 @@ public static class ArquivoEndpoints
                         arquivosNomes.Add(filename);
                     }
 
-                    await db.Arquivos.AddRangeAsync(arquivos);
-                    await db.SaveChangesAsync();
-
-                    var idsArquivos = arquivos.Select(x => x.IdArquivo).ToList();
-
-                    var arquivosResponse = new ArquivosListModel(1, arquivos.Count, arquivos.Count, arquivos);
-
                     InsightResumo insightResumo;
                     try
                     {
@@ -206,11 +199,6 @@ public static class ArquivoEndpoints
 
                         await db.Resumos.AddAsync(resumo);
 
-                        foreach (var idArquivo in idsArquivos)
-                        {
-                            var arquivo = await db.Arquivos.FindAsync(idArquivo);
-                            arquivo.IdResumo = resumo.IdResumo;
-                        }
 
                         await db.SaveChangesAsync();
 
@@ -225,6 +213,16 @@ public static class ArquivoEndpoints
                         await db.Insights.AddAsync(insight);
 
                         await db.SaveChangesAsync();
+
+                        foreach (var file in arquivos)
+                        {
+                            file.IdResumo = resumo.IdResumo;
+                        }
+
+                        await db.Arquivos.AddRangeAsync(arquivos);
+                        await db.SaveChangesAsync();
+
+                        var arquivosResponse = new ArquivosListModel(1, arquivos.Count, arquivos.Count, arquivos);
 
                         return Results.Created($"/arquivo/idUsuario/{idUsuario}/search", arquivosResponse);
                     }
