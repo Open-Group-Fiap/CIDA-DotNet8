@@ -176,7 +176,7 @@ public static class ArquivoEndpoints
                             Nome = filename,
                             Url = blobClient.Uri.ToString(),
                             DataUpload = DateTime.Now,
-                            Extensao = file.ContentType,
+                            Extensao = Path.GetExtension(file.FileName),
                             Tamanho = (int)file.Length
                         };
 
