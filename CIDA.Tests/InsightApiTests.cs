@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace CIDA.Tests;
 
-public class InsightApiTests : IClassFixture<WebApplicationFactory<Program>>
+[Collection("Api Test Collection")]
+public class InsightApiTests
 {
     private readonly HttpClient _client;
 
@@ -15,7 +16,7 @@ public class InsightApiTests : IClassFixture<WebApplicationFactory<Program>>
     {
         _client = factory.CreateClient();
     }
-    
+
     [Fact]
     public async Task PutInsight_ReturnsInsight_WhenInsightExists()
     {
@@ -36,7 +37,7 @@ public class InsightApiTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.NotNull(updatedInsight);
         Assert.Equal(insight.Descricao, updatedInsight.Descricao);
     }
-    
+
     [Fact]
     public async Task GetInsightById_ReturnsInsight_WhenInsightExists()
     {
@@ -49,12 +50,12 @@ public class InsightApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         Assert.NotNull(insight);
     }
-    
+
     [Fact]
     public async Task GetInsightByEmail_ReturnsInsight_WhenInsightExists()
     {
         // Act
-        var response = await _client.GetAsync("/insight/example2@example.com");
+        var response = await _client.GetAsync("/insight/example@example.com");
 
         // Assert
         response.EnsureSuccessStatusCode();
@@ -62,7 +63,7 @@ public class InsightApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         Assert.NotNull(insight);
     }
-    
+
     [Fact]
     public async Task DeleteInsight_ReturnsNoContent_WhenInsightExists()
     {
@@ -72,8 +73,8 @@ public class InsightApiTests : IClassFixture<WebApplicationFactory<Program>>
         // Assert
         response.EnsureSuccessStatusCode();
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-    }    
-    
+    }
+
     [Fact]
     public async Task GetInsightsByUsuarioEmail_ReturnsInsight_WhenInsightExists()
     {
@@ -86,7 +87,7 @@ public class InsightApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         Assert.NotNull(insight);
     }
-    
+
     [Fact]
     public async Task GetInsightsSearch_ReturnsInsight_WhenInsightExists()
     {
@@ -173,16 +174,14 @@ public class InsightApiTests : IClassFixture<WebApplicationFactory<Program>>
         var content = await response.Content.ReadAsStringAsync();
         Assert.Equal("Já existe um insight para esse resumo", content.Trim('"'));
     }
-    
+
     [Fact]
     public async Task PutInsight_ReturnsBadRequest_WhenSendRandomJson()
     {
         // Act
-        var response = await _client.PutAsJsonAsync("/insight/1", new {});
+        var response = await _client.PutAsJsonAsync("/insight/1", new { });
 
         // check if returns a bad request
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        
     }
-
 }
