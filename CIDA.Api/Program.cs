@@ -2,6 +2,7 @@ using Azure.Storage.Blobs;
 using CIDA.Api.Configuration.Routes;
 using Cida.Data;
 using CIDA.Domain.Entities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -173,6 +174,34 @@ public class Program
         app.MapInsightEndpoints();
         app.MapLoginEndpoints();
         app.MapArquivoEndpoints();
+
+        app.MapGet("/boot", async (CidaDbContext db) =>
+            {
+                int result = 0;
+
+                try
+                {
+                    using (var connection = db.Database.GetDbConnection())
+                    {
+                        await connection.OpenAsync();
+                        var command = connection.CreateCommand();
+                        command.CommandText = "SELECT 1";
+
+                        result = (int)await command.ExecuteScalarAsync();
+                    }
+                }
+                catch (Exception e)
+                {
+                    result = -1;
+                }
+
+                return Results.Ok(result);
+            })
+            .WithName("Boot")
+            .WithTags("Boot")
+            .WithDescription("Endpoint para inicialização do banco de dados")
+            .WithOpenApi();
+
         app.Run();
     }
 }
