@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace CIDA.Tests;
 
-public class LoginApiTests : IClassFixture<WebApplicationFactory<Program>>
+[Collection("Api Test Collection")]
+public class LoginApiTests
 {
     private readonly HttpClient _client;
 
@@ -14,7 +15,7 @@ public class LoginApiTests : IClassFixture<WebApplicationFactory<Program>>
     {
         _client = factory.CreateClient();
     }
-    
+
     [Fact]
     public async Task PostLogin_ReturnsUnauthorized_WhenEmailAndSenhaAreInvalid()
     {
@@ -26,11 +27,11 @@ public class LoginApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Act
         var response = await _client.PostAsJsonAsync("/login", login);
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
-    
+
     [Fact]
     public async Task PostLogin_ReturnsOk_WhenEmailAndSenhaAreValid()
     {

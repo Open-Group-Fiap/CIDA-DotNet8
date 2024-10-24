@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace CIDA.Tests;
 
-public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
+[Collection("Api Test Collection")]
+public class UsuarioApiTests
 {
     private readonly HttpClient _client;
 
@@ -43,7 +44,7 @@ public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
     {
         // Arrange
         var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
-            "example2@example.com",
+            "example@example.com",
             "123456",
             "example",
             0,
@@ -147,22 +148,21 @@ public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
     {
         // Arrange
         var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
-            "example2@example.com",
+            "example@example.com",
             "123456",
             "Example",
             TipoDocumento.CPF,
             "000.000.300-41",
             "(21) 88888-1345"
         );
-        
+
         // Act
         var response = await _client.PostAsJsonAsync("/usuario", usuario);
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         var content = await response.Content.ReadAsStringAsync();
         Assert.Equal("Email já cadastrado", content.Trim('"'));
-
     }
 
     [Fact]
@@ -170,17 +170,17 @@ public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
     {
         // Arrange
         var usuario = new UsuarioAndAutenticacaoAddOrUpdateModel(
-            "example2@example.com",
+            "example@example.com",
             "123456",
             "Example",
             TipoDocumento.CPF + 10,
             "000.000.300-41",
             "(21) 88888-1345"
         );
-        
+
         // Act
         var response = await _client.PutAsJsonAsync("/usuario/1", usuario);
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         var content = await response.Content.ReadAsStringAsync();
@@ -199,15 +199,14 @@ public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
             "000.000.300-41",
             "(21) 88888-1345"
         );
-        
+
         // Act
         var response = await _client.PutAsJsonAsync("/usuario/123", usuario);
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         var content = await response.Content.ReadAsStringAsync();
         Assert.Equal("Usuário não encontrado", content.Trim('"'));
-
     }
 
     [Fact]
@@ -231,7 +230,7 @@ public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
         var content = await response.Content.ReadAsStringAsync();
         Assert.Equal("Número de documento já cadastrado", content.Trim('"'));
     }
-    
+
     [Fact]
     public async Task PutUsuario_ReturnsBadRequest_WhenEmailIsAlreadyAssigned()
     {
@@ -244,37 +243,34 @@ public class UsuarioApiTests : IClassFixture<WebApplicationFactory<Program>>
             "000.000.300-41",
             "(21) 88888-1345"
         );
-        
+
         // Act
         var response = await _client.PutAsJsonAsync("/usuario/1", usuario);
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         var content = await response.Content.ReadAsStringAsync();
         Assert.Equal("Email já cadastrado", content.Trim('"'));
     }
-    
-        
-    
+
+
     [Fact]
-    public async Task PutUsuario_ReturnsBadRequest_WhenSendRandomJson()
+    public async Task PutUsuario_ReturnsInternalServerError_WhenSendRandomJson()
     {
         // Act
-        var response = await _client.PutAsJsonAsync("/usuario/1", new {});
+        var response = await _client.PutAsJsonAsync("/usuario/1", new { });
 
         // Assert
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
-    
+
     [Fact]
-    public async Task PostUsuario_ReturnsBadRequest_WhenSendRandomJson()
+    public async Task PostUsuario_ReturnsInternalServerError_WhenSendRandomJson()
     {
         // Act
-        var response = await _client.PostAsJsonAsync("/usuario", new {});
+        var response = await _client.PostAsJsonAsync("/usuario", new { });
 
         // Assert
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
-    
-    
 }

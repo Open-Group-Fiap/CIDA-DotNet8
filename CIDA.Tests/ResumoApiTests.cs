@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace CIDA.Tests;
 
-public class ResumoApiTests : IClassFixture<WebApplicationFactory<Program>>
+[Collection("Api Test Collection")]
+public class ResumoApiTests
 {
     private readonly HttpClient _client;
 
@@ -44,7 +45,7 @@ public class ResumoApiTests : IClassFixture<WebApplicationFactory<Program>>
         response.EnsureSuccessStatusCode();
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
     }
-    
+
     [Fact]
     public async Task GetResumosByUsuarioEmail_ReturnsResumo_WhenResumoExists()
     {
@@ -57,7 +58,7 @@ public class ResumoApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         Assert.NotNull(resumo);
     }
-    
+
     [Fact]
     public async Task GetResumosSearch_ReturnsResumo_WhenResumoExists()
     {
@@ -83,7 +84,7 @@ public class ResumoApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         Assert.NotNull(resumo);
     }
-    
+
     [Fact]
     public async Task PutResumo_ReturnsNotFound_WhenResumoNotExists()
     {
@@ -96,7 +97,7 @@ public class ResumoApiTests : IClassFixture<WebApplicationFactory<Program>>
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
-    
+
     [Fact]
     public async Task PutResumo_ReturnsBadRequestResumo_WhenUsuarioNotExists()
     {
@@ -115,9 +116,8 @@ public class ResumoApiTests : IClassFixture<WebApplicationFactory<Program>>
     {
         // Act
         var response = await _client.PutAsJsonAsync("/resumo/1", new { });
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
-
 }
