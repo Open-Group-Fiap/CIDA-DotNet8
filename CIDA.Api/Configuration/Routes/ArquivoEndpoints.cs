@@ -123,7 +123,7 @@ public static class ArquivoEndpoints
 
         arquivoGroup.MapPost("/idUsuario/{idUsuario:int}/upload",
                 async ([Required] IFormFileCollection arquivosRequest, int idUsuario, CidaDbContext db,
-                    BlobServiceClient blobServiceClient, IConfiguration configuration) =>
+                    BlobServiceClient blobServiceClient) =>
                 {
                     //possibles types
                     var possiblesTypes = new List<string>
