@@ -195,7 +195,7 @@ public static class ArquivoEndpoints
                     try
                     {
                         insightResumo =
-                            await InsightResumoService.GenerateInsightResumo(arquivosRequest, configuration);
+                            await InsightResumoService.GenerateInsightResumo(arquivosRequest);
 
                         var resumo = new Resumo
                         {
