@@ -108,9 +108,9 @@ public static class InsightResumoService
         }
     }
 
-    private static async Task<string> SendRequestGemini(string geminiPrompt, IConfiguration configuration)
+    private static async Task<string> SendRequestGemini(string geminiPrompt)
     {
-        var geminiApiKey = configuration.GetConnectionString("GeminiApiKey");
+        var geminiApiKey = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_GeminiApiKey");
 
         using var client = new HttpClient();
         var request = new HttpRequestMessage(HttpMethod.Post,
@@ -147,8 +147,7 @@ public static class InsightResumoService
     }
 
 
-    public static async Task<InsightResumo> GenerateInsightResumo(IFormFileCollection arquivosRequest,
-        IConfiguration configuration)
+    public static async Task<InsightResumo> GenerateInsightResumo(IFormFileCollection arquivosRequest)
     {
         var text = "";
         foreach (var arquivo in arquivosRequest) text += ReadFile(arquivo);
@@ -156,8 +155,8 @@ public static class InsightResumoService
         var start_phase =
             "Resuma o seguinte documento e diminua seu tamanho total, mantenha a coesão, os dados e as estatisticas: ";
 
-        var azureAIEndpoint = configuration.GetConnectionString("AzureAIEndpoint");
-        var azureAIApiKey = configuration.GetConnectionString("AzureAIApiKey");
+        var azureAIEndpoint = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_AzureAIEndpoint");
+        var azureAIApiKey = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_AzureAIApiKey");
         
         var client = new ChatCompletionsClient(
             new Uri(azureAIEndpoint),
@@ -185,7 +184,7 @@ public static class InsightResumoService
         geminiPrompt += "\n\n";
         geminiPrompt += resumo;
 
-        var output = await SendRequestGemini(geminiPrompt, configuration);
+        var output = await SendRequestGemini(geminiPrompt);
 
         var insight = output.Replace("\\n", Environment.NewLine)
             .Replace("\n", "")

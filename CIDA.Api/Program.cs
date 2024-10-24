@@ -1,10 +1,7 @@
 using Azure.Storage.Blobs;
-using CIDA.Api.Configuration.HealthChecks;
 using CIDA.Api.Configuration.Routes;
 using Cida.Data;
 using CIDA.Domain.Entities;
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -116,28 +113,25 @@ public class Program
                         IdInsight = 3, IdUsuario = 3, IdResumo = 3, Descricao = "Descrição do insight 3"
                     }
                 );
-                
+
                 context.SaveChanges();
             }
         }
         else
         {
-            var azureConnection = builder.Configuration.GetConnectionString("AzureConnection");
-            
-            builder.Services.AddDbContext<CidaDbContext>(options =>
-            {
-                options.UseSqlServer(azureConnection);
-            });
+            var azureConnection = Environment.GetEnvironmentVariable("SQLAZURECONNSTR_AzureSQLConnection");
+
+            builder.Services.AddDbContext<CidaDbContext>(options => { options.UseSqlServer(azureConnection); });
         }
 
         #endregion
 
         #region Azure Blob Storage
-        
+
         // add singleton azure blob service
         builder.Services.AddSingleton(x =>
         {
-            var connectionString = builder.Configuration.GetConnectionString("AzureStorage");
+            var connectionString = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_AzureStorage");
             return new BlobServiceClient(connectionString);
         });
 
@@ -145,9 +139,6 @@ public class Program
 
         // add HttpClient
         builder.Services.AddHttpClient();
-
-        // HealthChecks
-        builder.Services.ConfigureHealthChecks(builder.Configuration);
 
         #region Swagger Configuration
 
@@ -168,22 +159,14 @@ public class Program
 
         var app = builder.Build();
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                options.RoutePrefix = string.Empty;
-            });
-        }
 
-        app.MapHealthChecks("/api/health", new HealthCheckOptions
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
         {
-            Predicate = _ => true,
-            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            options.RoutePrefix = string.Empty;
         });
-        app.UseHealthChecksUI(options => { options.UIPath = "/healthcheck-ui"; });
+
 
         app.MapUsuarioEndpoints();
         app.MapResumoEndpoints();
