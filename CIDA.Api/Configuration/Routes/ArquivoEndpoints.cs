@@ -123,7 +123,7 @@ public static class ArquivoEndpoints
 
         arquivoGroup.MapPost("/idUsuario/{idUsuario:int}/upload",
                 async ([Required] IFormFileCollection arquivosRequest, int idUsuario, CidaDbContext db,
-                    BlobServiceClient blobServiceClient) =>
+                    BlobServiceClient blobServiceClient, IConfiguration configuration) =>
                 {
                     //possibles types
                     var possiblesTypes = new List<string>
@@ -188,7 +188,7 @@ public static class ArquivoEndpoints
                     try
                     {
                         insightResumo =
-                            await InsightResumoService.GenerateInsightResumo(arquivosRequest);
+                            await InsightResumoService.GenerateInsightResumo(arquivosRequest, configuration);
 
                         var resumo = new Resumo
                         {

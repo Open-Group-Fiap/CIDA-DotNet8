@@ -120,9 +120,8 @@ public class Program
         }
         else
         {
-            var azureConnection = Environment.GetEnvironmentVariable("SQLAZURECONNSTR_AzureSQLConnection");
 
-            builder.Services.AddDbContext<CidaDbContext>(options => { options.UseSqlServer(azureConnection); });
+            builder.Services.AddDbContext<CidaDbContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("AzureConnection")); });
         }
 
         #endregion
@@ -132,8 +131,7 @@ public class Program
         // add singleton azure blob service
         builder.Services.AddSingleton(x =>
         {
-            var connectionString = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_AzureStorage");
-            return new BlobServiceClient(connectionString);
+            return new BlobServiceClient(builder.Configuration.GetConnectionString("AzureStorage"));
         });
 
         #endregion
