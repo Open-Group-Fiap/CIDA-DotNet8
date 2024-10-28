@@ -188,6 +188,7 @@ public class Program
         app.MapInsightEndpoints();
         app.MapLoginEndpoints();
         app.MapArquivoEndpoints();
+        app.MapPrevisaoEndpoints();
         app.Run();
     }
 }

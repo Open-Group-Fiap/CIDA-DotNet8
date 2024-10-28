@@ -1,6 +1,6 @@
 ﻿namespace CIDA.Api.Models.Responses;
 
-public class ModelMetrics (
+public record MetricsModel (
     double RSquared,
     double RootMeanSquaredError
 );

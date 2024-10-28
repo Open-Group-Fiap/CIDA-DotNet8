@@ -1,6 +1,6 @@
 ﻿namespace CIDA.Api.Models.Responses;
 
-public record PrevisaoResponse(
+public record PrevisaoModel(
     float Variacao
 );
     
