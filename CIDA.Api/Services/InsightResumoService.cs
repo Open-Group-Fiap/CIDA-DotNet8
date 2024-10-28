@@ -184,7 +184,7 @@ public static class InsightResumoService
         geminiPrompt += "\n\n";
         geminiPrompt += resumo;
 
-        var output = await SendRequestGemini(geminiPrompt);
+        var output = await SendRequestGemini(geminiPrompt, configuration);
 
         var insight = output.Replace("\\n", Environment.NewLine)
             .Replace("\n", "")
