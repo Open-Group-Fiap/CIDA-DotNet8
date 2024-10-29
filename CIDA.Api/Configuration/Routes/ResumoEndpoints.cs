@@ -95,10 +95,11 @@ public static class ResumoEndpoints
                 var resumoDb = await db.Resumos.FindAsync(id);
                 if (resumoDb == null) return Results.NotFound("Resumo não encontrado");
 
-                var resumo = model.MapToInsightWithoutDate();
+                resumoDb.IdUsuario = model.IdUsuario;
+                resumoDb.Descricao = model.Descricao;
 
                 await db.SaveChangesAsync();
-                return Results.Ok(resumo);
+                return Results.Ok(resumoDb);
             })
             .Accepts<ResumoAddOrUpdateModel>("application/json")
             .Produces<Resumo>()
