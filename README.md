@@ -9,12 +9,7 @@
 ## Como rodar
 - Coloque suas credencias da oracle e azure no arquivo appsettings.json e/ou use as que estão no final do readme
 - Execute update database no terminal de gerenciamento de pacotes do NuGet
-- Acesse esse link e siga as intruções para rodar a API em python, baixe a branch **(development)**: [API Python](https://github.com/Open-Group-Fiap/CIDA-Python)
-- Coloque o arquivo .Env, que foi enviado junto com o projeto, na pasta raiz do projeto em python
-- Execute o projeto em python
-- Altere a string de conexão da API Python para a URL que a API Python está rodando localmente
 - Inicie a aplicação em http
-- Caso a API python não estiver respondendo, altera a variavel url_API no arquivo main.py
 
 
 ## Escolha da Arquitetura para o Projeto da API em .NET
@@ -57,6 +52,9 @@ A arquitetura monolítica oferece um desempenho superior devido à ausência de 
 ````json
 "ConnectionStrings": {
 "FiapOracleConnection": "Data Source=oracle.fiap.com.br:1521/orcl;User ID=XXXXX;Password=XXXXX;",
-"AzureStorage": "DefaultEndpointsProtocol=https;AccountName=XXXXX;AccountKey=XXXXX;EndpointSuffix=core.windows.net"
+"AzureStorage": "DefaultEndpointsProtocol=https;AccountName=XXXXX;AccountKey=XXXXX;EndpointSuffix=core.windows.net",
+"AzureAIApiKey": "",
+"AzureAIEndpoint": "",
+"GeminiApiKey": ""
 }
 ````
