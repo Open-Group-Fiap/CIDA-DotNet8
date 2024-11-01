@@ -52,16 +52,20 @@ public static class InsightEndpoints
                 }
             );
 
-        insightGroup.MapGet("/{email}", async (CidaDbContext db, string email) =>
+        insightGroup.MapGet("email/{email}", async (CidaDbContext db, string email, int page = 1, int pagesize = 30) =>
             {
                 var usuario = await db.Usuarios.FirstOrDefaultAsync(x => x.Autenticacao.Email == email);
                 if (usuario == null) return Results.NotFound("Usuário não encontrado");
 
-                var insight = await db.Insights.FirstOrDefaultAsync(x => x.IdUsuario == usuario.IdUsuario);
+                var results = await db.Insights.Where(r => r.IdUsuario == usuario.IdUsuario).ToListAsync();
+                return results == null ? Results.NotFound("Nenhum insight encontrado") : Results.Ok(new InsightsListModel(
+                    page,
+                    pagesize,
+                    results.Count,
+                    results));
 
-                return insight == null ? Results.NotFound("Nenhum insight encontrado") : Results.Ok(insight);
             })
-            .Produces<Insight>()
+            .Produces<InsightsListModel>()
             .Produces(StatusCodes.Status404NotFound)
             .WithName("GetInsightByEmail")
             .WithTags("Insight")
@@ -97,10 +101,12 @@ public static class InsightEndpoints
                     if (insightExists != null) return Results.BadRequest("Já existe um insight para esse resumo");
                 }
 
-                var insight = model.MapToInsightUpdate(insightDb);
+                insightDb.IdUsuario = model.IdUsuario;
+                insightDb.IdResumo = model.IdResumo;
+                insightDb.Descricao = model.Descricao;
 
                 await db.SaveChangesAsync();
-                return Results.Ok(insight);
+                return Results.Ok(insightDb);
             })
             .Accepts<InsightAddOrUpdateModel>("application/json")
             .Produces(StatusCodes.Status400BadRequest)

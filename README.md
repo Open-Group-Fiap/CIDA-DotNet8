@@ -9,12 +9,7 @@
 ## Como rodar
 - Coloque suas credencias da oracle e azure no arquivo appsettings.json e/ou use as que estão no final do readme
 - Execute update database no terminal de gerenciamento de pacotes do NuGet
-- Acesse esse link e siga as intruções para rodar a API em python, baixe a branch **(development)**: [API Python](https://github.com/Open-Group-Fiap/CIDA-Python)
-- Coloque o arquivo .Env, que foi enviado junto com o projeto, na pasta raiz do projeto em python
-- Execute o projeto em python
-- Altere a string de conexão da API Python para a URL que a API Python está rodando localmente
 - Inicie a aplicação em http
-- Caso a API python não estiver respondendo, altera a variavel url_API no arquivo main.py
 
 
 ## Escolha da Arquitetura para o Projeto da API em .NET
@@ -52,11 +47,26 @@ A arquitetura monolítica oferece um desempenho superior devido à ausência de 
 6. **Chain of Responsibility Pattern**
 7. **Singleton Pattern**
 
-### Credenciais
+## Testes
+Nossa abordagem foi abrangente, focando tanto nos endpoints da API quanto em seus serviços. Implementamos testes que verificam não apenas o funcionamento isolado de cada componente, mas também sua integração com outros elementos do sistema. Os testes dos endpoints garantem o correto funcionamento das respostas HTTP e validam os payloads das requisições, enquanto os testes dos serviços verificam a lógica de negócio e os fluxos de dados.
+
+
+## Práticas de Clean Code e SOLID
+Aplicamos princípios de Clean Code de forma consistente ao longo do desenvolvimento. Isso inclui a definição de variáveis próximas ao seu ponto de uso, a separação adequada de código repetido em funções reutilizáveis e a escolha cuidadosa de nomes significativos para funções e variáveis. Os princípios SOLID foram fundamentais em nossa abordagem, com ênfase especial na separação de responsabilidades através do Single Responsibility Principle e na utilização efetiva de interfaces para promover um baixo acoplamento entre os componentes do sistema.
+
+## Funcionalidades de IA Generativa
+Na implementação das funcionalidades de IA, adotamos uma abordagem híbrida utilizando diferentes modelos e tecnologias para atender a necessidades específicas do sistema. Para o cálculo de preços de insights, desenvolvemos um algoritmo de deep learning baseado em regressão linear utilizando o framework ML.NET. Esta implementação permite uma precificação dinâmica e precisa.
+
+Para a funcionalidade de geração de resumos, integramos o modelo phi3 mini, que se mostrou eficiente na condensação de informações mantendo os pontos principais do conteúdo original. Já para a geração de insights mais complexos e contextualizados, implementamos uma integração com o modelo gemini 1.5 flash, que oferece capacidades avançadas de processamento de linguagem natural e geração de conteúdo. A escolha destes modelos específicos foi baseada em um equilíbrio entre performance, precisão e requisitos computacionais, permitindo que nossa API ofereça resultados de alta qualidade mantendo tempos de resposta adequados
+
+## Credenciais
 
 ````json
 "ConnectionStrings": {
 "FiapOracleConnection": "Data Source=oracle.fiap.com.br:1521/orcl;User ID=XXXXX;Password=XXXXX;",
-"AzureStorage": "DefaultEndpointsProtocol=https;AccountName=XXXXX;AccountKey=XXXXX;EndpointSuffix=core.windows.net"
+"AzureStorage": "DefaultEndpointsProtocol=https;AccountName=XXXXX;AccountKey=XXXXX;EndpointSuffix=core.windows.net",
+"AzureAIApiKey": "",
+"AzureAIEndpoint": "",
+"GeminiApiKey": ""
 }
 ````
