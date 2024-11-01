@@ -48,7 +48,7 @@ A arquitetura monolítica oferece um desempenho superior devido à ausência de 
 7. **Singleton Pattern**
 
 ## Testes
-Nossa abordagem foi abrangente, focando tanto nos endpoints da API quanto em seus serviços. Implementamos testes que verificam não apenas o funcionamento isolado de cada componente, mas também sua integração com outros elementos do sistema. Os testes dos endpoints garantem o correto funcionamento das respostas HTTP e validam os payloads das requisições, enquanto os testes dos serviços verificam a lógica de negócio e os fluxos de dados.
+Nossa abordagem foi abrangente. Implementamos testes que verificam não apenas o funcionamento isolado de cada componente, mas também sua integração com outros elementos do sistema. Os testes dos endpoints garantem o correto funcionamento das respostas HTTP e validam os payloads das requisições, enquanto os testes dos serviços verificam a lógica de negócio e os fluxos de dados.
 
 
 ## Práticas de Clean Code e SOLID
